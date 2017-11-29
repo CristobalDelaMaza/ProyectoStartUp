@@ -1,7 +1,16 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+  <v-app id="inspire">
+    <Navigator></Navigator>
+    <main>
+      <v-content class="grey lighten-3">
+        <v-container>
+          <v-layout>
+            <router-view></router-view>
+          </v-layout>
+        </v-container>
+      </v-content>
+    </main>
+  </v-app>
 </template>
 <style>
   .bg-green{
@@ -38,7 +47,6 @@
     components: {
       // navigation,
       Navigator
-    },
-    name: 'app'
+    }
   }
 </script>

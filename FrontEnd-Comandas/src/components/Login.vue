@@ -1,21 +1,46 @@
-<template>
-  <section>
-    <div class="col-sm-6">
-      <form action="javascript:;" @submit.prevent="login(credentials)" class="form">
-        <div class="form-group">
-          <label for="email">Correo Electrónico</label>
-          <input id="email" v-model="credentials.email" type="text" class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="pass">Contraseña</label>
-          <input id="pass" v-model="credentials.password" type="password" class="form-control">
-        </div>
-        <div class="form-group">
-          <input type="submit" class="btn btn-default" value="Autentificar">
-        </div>
-      </form>
-    </div>
-  </section>
+<template class="mt-8">
+  <v-layout>
+    <v-flex xs12 sm6 offset-sm3>
+      <v-card class="mt-8">
+        <v-card-title primary-title class="deep-orange darken-4">
+          <div>
+            <h3 class="headline mb-0 text-xl-center">Comandas</h3>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-flex xs12 sm10 offset-sm1>
+            <v-form action="javascript:;" @submit.prevent="login(credentials)" class="form">
+             <v-flex xs12 sm8 offset-sm2>
+               <div class="form-group">
+                 <v-flex xs8 offset-sm2>
+                  <v-text-field
+                  name="input-1"
+                  label="Correo"
+                  v-model="credentials.email"
+                  ></v-text-field >
+                </v-flex>
+                </div>
+                <div class="form-group">
+                  <v-flex xs8 offset-sm2>
+                    <v-text-field
+                    name="input-10-1"
+                    label="Contraseña"
+                    v-model="credentials.password"
+                    type="password" 
+                    ></v-text-field>
+                  </v-flex>
+                  </div>
+                  <v-flex xs12 sm4 offset-sm4>
+                  <v-btn color="" type="submit">Large Button</v-btn>
+                </v-flex>
+              </v-flex>
+            </div>
+            </v-form>
+          </v-flex>
+        </v-card-actions>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
 <script>
   import {loginService} from '@/services/Login.service.js'
@@ -35,7 +60,7 @@
         loginService.authenticate(model).then(data => {
           console.log(data)
           this.credentialService.setToken(data.body.token)
-          this.$router.push('/usuarios')
+          this.$router.push('/dashboard')
           // window.location.href = '/pokemons'
         })
       }

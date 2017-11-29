@@ -46,7 +46,7 @@
   </div>
   </v-card>
       <v-dialog v-model="agregarEmpleado" max-width="650px">
-            <v-card>
+        <v-card>
         <v-card-title>
           <span class="headline">Agregar Usuario</span>
         </v-card-title>
