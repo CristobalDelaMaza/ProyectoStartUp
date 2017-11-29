@@ -7,4 +7,4 @@ class EmpleadoService extends ApiService {
   }
 }
 
-export const empleadoService = new EmpleadoService('empleadost')
+export const empleadoService = new EmpleadoService('empleados')

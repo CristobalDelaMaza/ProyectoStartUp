@@ -29,6 +29,21 @@ export default {
       console.log('--EMPLEADOS--')
       console.log(this.users)
     })
+  },
+  methods: {
+    crearEmpleado (model) {
+      empleadoService.save(this.model).then(data => {
+        this.empleados.push(model)
+      }, err => {
+        console.log(err)
+        if (err.status) {
+          alert(err.body)
+        }
+      })
+
+      console.log('--EMPLEADO--')
+      console.log(this.model)
+    }
   }
 }
 </script>

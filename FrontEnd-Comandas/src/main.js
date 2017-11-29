@@ -16,7 +16,7 @@ Vue.use(VueResource)
 const credentials = new Credentials()
 // Added Interceptors
 Vue.http.interceptors.push(function (request, next) {
-  request.headers.set('Authorization', credentials.getToken())
+  request.headers.set('Authorization', 'Bearer ' + credentials.getToken())
   request.headers.set('Accept', 'application/json')
   console.log('asdsdasdasd')
   let vm = this

@@ -7,4 +7,4 @@ class ComandaService extends ApiService {
   }
 }
 
-export const comandaService = new ComandaService('comandast')
+export const comandaService = new ComandaService('comandas')

@@ -60,6 +60,11 @@
           state: 'Estadisticas'
         },
         {
+          name: 'Comandas',
+          icon: 'restaurant',
+          state: 'Comandas'
+        },
+        {
           name: 'Configuracion',
           icon: 'settings',
           state: 'Configuracion'
