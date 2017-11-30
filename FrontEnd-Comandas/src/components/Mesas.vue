@@ -51,63 +51,99 @@
 			</v-layout>
 		</v-container>
 		<v-dialog v-model="nuevaComanda" max-width="650px">
-	<v-card>
-		<v-card-title>
-			<span class="headline">Comanda</span>
-		</v-card-title>
-		<v-card-text>
-			<v-container grid-list-md>
-				<v-layout wrap>
-					<v-flex xs12>
-					<v-text-field label="Número de Clientes" required></v-text-field>	
-					</v-flex>
-					<v-flex xs12>
-					
-					</v-flex>
-					<v-flex xs12>
-					<v-select
-						v-bind:items="select"
-						label="Menú"
-						item-value="text"
-						></v-select>
-					</v-flex>
-					<v-flex xs4>
-					<v-checkbox label="Pan"></v-checkbox>	
-					</v-flex> 
-					<v-flex xs4>
-					<v-checkbox label="Jugo/Bebida"></v-checkbox>	
-					</v-flex>
-					<v-flex xs4>
-					<v-checkbox label="Café/Té"></v-checkbox>		
-					</v-flex>
-				</v-layout>
-			</v-container>
-			<small>*Campos requeridos</small>
-		</v-card-text>				<v-card-actions>
-			<v-spacer></v-spacer>
-			<v-btn flat color="green" @click.native="nuevaComanda = false">Guardar</v-btn>
-			<v-btn flat color="red" @click.native="nuevaComanda = false">Cancelar</v-btn>
-		</v-card-actions>
-	</v-card>
-</v-dialog>
+			<v-card>
+        <v-card-title>
+          <span class="headline">Agregar Comanda</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form action="crearComanda(model)">
+            <v-layout wrap>
+                Mesa
+              <v-flex xs12>
+                <select v-model="model.id_mesa" label="Mesa" item-value="id">
+                  <option v-for="mesa in mesas" v-bind:value="mesa.id"> {{ mesa.nro_mesa }}
+                  </option>
+                </select>
+              </v-flex>
+                Empleado
+              <v-flex xs12>
+                <select v-model="model.id_empleado" label="Empleado" item-value="id">
+                  <option v-for="empleado in empleados" v-bind:value="empleado.id"> {{ empleado.nombre }}
+                  </option>
+                </select>
+              </v-flex>
+            </v-layout>
+          </v-form>
+          <small>*Campos requeridos</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green" flat @click.native="crearComanda(model), agregarComanda = false">Guardar</v-btn>
+          <v-btn color="red" flat @click.native="agregarComanda = false">Cancelar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 	</v-flex>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        nuevaComanda: false,
-        select: [
-          { text: 'State 1' },
-          { text: 'State 2' },
-          { text: 'State 3' },
-          { text: 'State 4' },
-          { text: 'State 5' },
-          { text: 'State 6' },
-          { text: 'State 7' }
-        ]
-      }
+import {comandaService} from '@/services/Comanda.service.js'
+import {mesaService} from '@/services/Mesa.service.js'
+import {empleadoService} from '@/services/Empleado.service.js'
+export default {
+  data () {
+    return {
+      nuevaComanda: false,
+      max25chars: (v) => v.length <= 25 || 'Input too long!',
+      tmp: '',
+      search: '',
+      pagination: {},
+      headers: [
+        {
+          text: 'Numero mesa',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        { text: 'Nombre empleado', value: 'nombreEmpleado' },
+        { text: 'Fecha', value: 'fecha' }
+      ],
+      items: [],
+      model: {
+        id_mesa: '',
+        id_empleado: ''
+      },
+      mesas: [],
+      empleados: []
+    }
+  },
+  mounted () {
+    comandaService.query().then(data => {
+      this.items = data.body
+      console.log('"this.items"')
+      console.log(this.items)
+    })
+    empleadoService.query().then(data => {
+      this.empleados = data.body
+    })
+    mesaService.query().then(data => {
+      this.mesas = data.body
+    })
+  },
+  methods: {
+    crearComanda (model) {
+      comandaService.save(this.model).then(data => {
+        this.comandas.push(model)
+      }, err => {
+        console.log(err)
+        if (err.status) {
+          alert(err.body)
+        }
+      })
+
+      console.log('--Menu--')
+      console.log(this.model)
     }
   }
+}
 </script>

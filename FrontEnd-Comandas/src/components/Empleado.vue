@@ -60,7 +60,11 @@
                 <v-text-field label="Rut" v-model="model.rut" required></v-text-field>
               </v-flex>
               <v-flex xs12>
-              <v-select v-bind:items="cargos" v-model="model.id_cargo" label="Cargo" item-value="value"></v-select>
+              <!--<v-select v-bind:items="cargos" v-model="model.id_cargo" label="Cargo" item-value="value"></v-select>-->
+              <select v-model="model.id_cargo" label="Cargo" item-value="id">
+                  <option v-for="cargo in cargos" v-bind:value="cargo.id"> {{ cargo.nombre }}
+                  </option>
+                </select>
           </v-flex>
             </v-layout>
           </v-form>
@@ -81,6 +85,7 @@
 
 <script>
 import {empleadoService} from '@/services/Empleado.service.js'
+import {cargoService} from '@/services/Cargo.service.js'
 export default {
   data () {
     return {
@@ -105,11 +110,7 @@ export default {
         rut: '',
         id_cargo: ''
       },
-      cargos: [
-        { text: 'Administrador', value: 1 },
-        { text: 'Cocinero', value: 3 },
-        { text: 'Garzon', value: 2 }
-      ]
+      cargos: []
     }
   },
   mounted () {
@@ -117,6 +118,9 @@ export default {
       this.items = data.body
       console.log('--EMPLEADOS--')
       console.log(this.items)
+    })
+    cargoService.query().then(data => {
+      this.cargos = data.body
     })
   },
   methods: {

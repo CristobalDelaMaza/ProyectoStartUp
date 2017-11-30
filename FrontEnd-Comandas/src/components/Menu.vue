@@ -1,132 +1,149 @@
 <template>
-	<v-flex sm10 offset-xs1 class="center">
-		<v-card >
-			<v-card-title>
-				Menus
-			</v-card-title>
-			<v-data-table
-			v-model="selected"
-			v-bind:headers="headers"
-			v-bind:items="items"
-			select-all
-			v-bind:pagination.sync="pagination"
-			item-key="name"
-			class="elevation-1"
-			>
-			<template slot="headers" slot-scope="props">
-				<tr>
-					<th>
-						<v-checkbox
-						primary
-						hide-details
-						@click.native="toggleAll"
-						:input-value="props.all"
-						:indeterminate="props.indeterminate"
-						></v-checkbox>
-					</th>
-					<th v-for="header in props.headers" :key="header.text"
-					:class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
-					@click="changeSort(header.value)"
-					>
-					<v-icon>arrow_upward</v-icon>
-					{{ header.text }}
-				</th>
-			</tr>
-		</template>
-		<template slot="items" slot-scope="props">
-			<tr :active="props.selected" @click="props.selected = !props.selected">
-				<td>
-					<v-checkbox
-					primary
-					hide-details
-					:input-value="props.selected"
-					></v-checkbox>
-				</td>
-				<td>{{ props.item.name }}</td>
-				<td class="text-xs-right">{{ props.item.calories }}</td>
-				<td class="text-xs-right">{{ props.item.fat }}</td>
-				<td class="text-xs-right">{{ props.item.carbs }}</td>
-				<td class="text-xs-right">{{ props.item.protein }}</td>
-				<td class="text-xs-right">{{ props.item.sodium }}</td>
-				<td class="text-xs-right">{{ props.item.calcium }}</td>
-				<td class="text-xs-right">{{ props.item.iron }}</td>
-			</tr>
-		</template>
-	</v-data-table>
-	<div class="text-xs-right pt-5">
-		<v-btn outline  fab color="green darken-4" @click.native.stop="agregarMenu = !agregarMenu">
-			<v-icon>add</v-icon>
-		</v-btn>
-		<v-btn outline  fab color="amber darken-4">
-			<v-icon>done</v-icon>
-		</v-btn>
-	</div>
-</v-card>
-<v-dialog v-model="agregarMenu" max-width="650px">
-	<v-card>
-		<v-card-title>
-			<span class="headline">Agregar Menú</span>
-		</v-card-title>
-		<v-card-text>
-			<v-container grid-list-md>
-				<v-layout wrap>
-					<v-flex xs12>
-						<v-select
-						v-bind:items="select"
-						label="Ensalada"
-						item-value="text"
-						></v-select>
-					</v-flex>
-					<v-flex xs12>
-					<v-select
-						v-bind:items="select"
-						label="Plato de Fondo"
-						item-value="text"
-						></v-select>
-					</v-flex>
-					<v-flex xs12>
-					<v-select
-						v-bind:items="select"
-						label="Postre"
-						item-value="text"
-						></v-select>
-					</v-flex>
-					<v-flex xs4>
-					<v-checkbox label="Pan"></v-checkbox>	
-					</v-flex> 
-					<v-flex xs4>
-					<v-checkbox label="Jugo/Bebida"></v-checkbox>	
-					</v-flex>
-					<v-flex xs4>
-					<v-checkbox label="Café/Té"></v-checkbox>		
-					</v-flex>
-				</v-layout>
-			</v-container>
-			<small>*Campos requeridos</small>
-		</v-card-text>				<v-card-actions>
-			<v-spacer></v-spacer>
-			<v-btn flat color="green" @click.native="agregarMenu = false">Guardar</v-btn>
-			<v-btn flat color="red" @click.native="agregarMenu = false">Cancelar</v-btn>
-		</v-card-actions>
-	</v-card>
-</v-dialog>
+  <v-flex sm10 offset-xs1 class="center">
+  <v-card >
+    <v-card-title>
+      Menus
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Buscar"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+        v-bind:headers="headers"
+        v-bind:items="items"
+        v-bind:search="search"
+      >
+      <template slot="items" slot-scope="props">
+        <td>
+          <v-edit-dialog
+            lazy
+          > {{ props.item.nombre }}
+            <v-text-field
+              slot="input"
+              label="Edit"
+              v-model="props.item.nombre"
+              single-line
+              counter
+              :rules="[max25chars]"
+            ></v-text-field>
+          </v-edit-dialog>
+        </td>
+        <td class="text-xs-right">{{ props.item.descripcion }}</td>
+        <td class="text-xs-right">{{ props.item.acompannamiento.nombre }}</td>
+        <td class="text-xs-right">{{ props.item.precio }}</td>
+      </template>
+      <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
+    <div class="text-xs-right pt-5">
+    <v-btn outline  fab color="green darken-4" @click.native.stop="agregarMenu = !agregarMenu">
+      <v-icon>add</v-icon>
+    </v-btn>
+  </div>
+  </v-card>
+      <v-dialog v-model="agregarMenu" max-width="650px">
+        <v-card>
+        <v-card-title>
+          <span class="headline">Agregar Menu</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form action="crearMenu(model)">
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field label="Nombre" v-model="model.nombre" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field label="Descripcion" v-model="model.descripcion" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field label="Precio" v-model="model.precio" required numeric></v-text-field>
+              </v-flex>
+              	Acompañamiento
+              <v-flex xs12>
+              	<select v-model="model.id_acompannamiento" label="Acompañamiento" item-value="id">
+                  <option v-for="item in items" v-bind:value="item.id"> {{ item.nombre }}
+                  </option>
+                </select>
+          </v-flex>
+            </v-layout>
+          </v-form>
+          <small>*Campos requeridos</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green" flat @click.native="crearMenu(model), agregarMenu = false">Guardar</v-btn>
+          <v-btn color="red" flat @click.native="agregarMenu = false">Cancelar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </v-flex>
 </template>
+
+
+
 <script>
-  export default {
-    data () {
-      return {
-        agregarMenu: false,
-        select: [
-          { text: 'State 1' },
-          { text: 'State 2' },
-          { text: 'State 3' },
-          { text: 'State 4' },
-          { text: 'State 5' },
-          { text: 'State 6' },
-          { text: 'State 7' }
-        ]
-      }
+import {menuService} from '@/services/Menu.service.js'
+import {acompannamientoService} from '@/services/Acompannamiento.service.js'
+export default {
+  data () {
+    return {
+      agregarMenu: false,
+      max25chars: (v) => v.length <= 25 || 'Input too long!',
+      tmp: '',
+      search: '',
+      pagination: {},
+      headers: [
+        {
+          text: 'Nombre',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        { text: 'Descripcion', value: 'descripcion' },
+        { text: 'Acompañamiento', value: 'acompannamiento' },
+        { text: 'Total', value: 'total' }
+      ],
+      items: [],
+      model: {
+        nombre: '',
+        descripcion: '',
+        precio: '',
+        id_acompannamiento: ''
+      },
+      acomp: []
+    }
+  },
+  mounted () {
+    menuService.query().then(data => {
+      this.items = data.body
+      console.log('"this.items"')
+      console.log(this.items)
+    })
+    acompannamientoService.query().then(data => {
+      this.acomp = data.body
+      console.log('"this.acomp"')
+      console.log(this.acomp)
+    })
+  },
+  methods: {
+    crearMenu (model) {
+      menuService.save(this.model).then(data => {
+        this.menus.push(model)
+      }, err => {
+        console.log(err)
+        if (err.status) {
+          alert(err.body)
+        }
+      })
+
+      console.log('--Menu--')
+      console.log(this.model)
     }
   }
+}
 </script>
