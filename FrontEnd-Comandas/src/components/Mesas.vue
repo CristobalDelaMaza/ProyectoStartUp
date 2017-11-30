@@ -53,7 +53,7 @@
 		<v-dialog v-model="nuevaComanda" max-width="650px">
 			<v-card>
         <v-card-title>
-          <span class="headline">Agregar Comanda</span>
+          <span class="headline">Agregar Pedido</span>
         </v-card-title>
         <v-card-text>
           <v-form action="crearComanda(model)">
@@ -67,16 +67,18 @@
               </v-flex>
             </v-layout>
               <v-flex xs12>
-                <v-select multiple :options="acompannamientos" v-bind:items="acompannamientos" label="Acompaññamientos" item-value="value"></v-select>
+                <v-select multiple :options="acompannamientos" v-bind:items="acompannamientos" label="Acompañamientos" item-value="value"></v-select>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field label="Comentario" v-model="model.comentario"></v-text-field>
               </v-flex>
             </v-layout>
           </v-form>
-          <small>*Campos requeridos</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green" flat @click.native="crearComanda(model), agregarComanda = false">Guardar</v-btn>
-          <v-btn color="red" flat @click.native="agregarComanda = false">Cancelar</v-btn>
+          <v-btn color="green" flat @click.native="crearComanda(model), nuevaComanda = false">Guardar</v-btn>
+          <v-btn color="red" flat @click.native="nuevaComanda = false">Cancelar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -114,10 +116,15 @@ export default {
       comandas: [],
       menus: [],
       acompannamientos: [
-        {text: 'papas fritas', value: 1},
-        {text: 'pure', value: 2},
-        {text: 'palta', value: 3},
-        {text: 'arroz', value: 4}
+        {text: 'Papas fritas', value: 1},
+        {text: 'Pure', value: 2},
+        {text: 'Palta', value: 3},
+        {text: 'Arroz', value: 4},
+        {text: 'Vino tinto', value: 5},
+        {text: 'Cerveza', value: 6},
+        {text: 'Empanadas', value: 7},
+        {text: 'Empanadas de queso', value: 8},
+        {text: 'Jugo natural', value: 9}
       ]
     }
   },

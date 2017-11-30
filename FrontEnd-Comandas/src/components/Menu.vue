@@ -66,7 +66,7 @@
               	Acompañamiento:
               <v-flex xs12>
               	<select v-model="model.id_acompannamiento" label="Acompañamiento" item-value="id">
-                  <option v-for="item in items" v-bind:value="item.id"> {{ item.nombre }}
+                  <option v-for="acom in acomp" v-bind:value="acom.id"> {{ acom.nombre }}
                   </option>
                 </select>
           </v-flex>

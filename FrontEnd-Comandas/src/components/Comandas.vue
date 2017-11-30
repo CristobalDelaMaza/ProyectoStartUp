@@ -108,7 +108,10 @@ export default {
       items: [],
       model: {
         id_mesa: '',
-        id_empleado: ''
+        id_empleado: '',
+        fecha: '2017-11-30',
+        hora: '10:35:10',
+        entregado: 0
       },
       mesas: [],
       empleados: []

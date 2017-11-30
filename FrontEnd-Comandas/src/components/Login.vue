@@ -1,10 +1,10 @@
 <template class="mt-8">
   <v-layout>
-    <v-flex xs12 sm6 offset-sm3>
-      <v-card class="mt-8">
-        <v-card-title primary-title class="deep-orange darken-4">
+    <v-flex xs12 sm6 offset-sm3 class="elevation-9">
+      <v-card class="mt-8 grey lighten-4">
+        <v-card-title primary-title class="deep-orange accent-4 white--text">
           <div>
-            <h3 class="headline mb-0 text-xl-center">Comandas</h3>
+            <h3 class="headline mb-0 text-xl-center">Ileluwün</h3>
           </div>
         </v-card-title>
         <v-card-actions>
@@ -31,7 +31,7 @@
                   </v-flex>
                   </div>
                   <v-flex xs12 sm4 offset-sm4>
-                  <v-btn color="" type="submit">Acceder</v-btn>
+                  <v-btn color="deep-orange accent-4 white--text" type="submit">Acceder</v-btn>
                 </v-flex>
               </v-flex>
             </div>
