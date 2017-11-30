@@ -58,19 +58,16 @@
         <v-card-text>
           <v-form action="crearComanda(model)">
             <v-layout wrap>
-                Mesa
+                Menu:
               <v-flex xs12>
-                <select v-model="model.id_mesa" label="Mesa" item-value="id">
-                  <option v-for="mesa in mesas" v-bind:value="mesa.id"> {{ mesa.nro_mesa }}
+                <select v-model="model.id_menu" label="Menu" item-value="id">
+                  <option v-for="menu in menus" v-bind:value="menu.id"> {{ menu.nombre }}
                   </option>
                 </select>
               </v-flex>
-                Empleado
+            </v-layout>
               <v-flex xs12>
-                <select v-model="model.id_empleado" label="Empleado" item-value="id">
-                  <option v-for="empleado in empleados" v-bind:value="empleado.id"> {{ empleado.nombre }}
-                  </option>
-                </select>
+                <v-select multiple :options="acompannamientos" v-bind:items="acompannamientos" label="Acompaññamientos" item-value="value"></v-select>
               </v-flex>
             </v-layout>
           </v-form>
@@ -88,8 +85,8 @@
 
 <script>
 import {comandaService} from '@/services/Comanda.service.js'
-import {mesaService} from '@/services/Mesa.service.js'
-import {empleadoService} from '@/services/Empleado.service.js'
+import {menuComandaService} from '@/services/MenuComanda.service.js'
+import {menuService} from '@/services/Menu.service.js'
 export default {
   data () {
     return {
@@ -110,30 +107,35 @@ export default {
       ],
       items: [],
       model: {
-        id_mesa: '',
-        id_empleado: ''
+        id_comanda: 1,
+        comentario: 'sin comentario',
+        id_menu: ''
       },
-      mesas: [],
-      empleados: []
+      comandas: [],
+      menus: [],
+      acompannamientos: [
+        {text: 'papas fritas', value: 1},
+        {text: 'pure', value: 2},
+        {text: 'palta', value: 3},
+        {text: 'arroz', value: 4}
+      ]
     }
   },
   mounted () {
     comandaService.query().then(data => {
+      this.comandas = data.body
+    })
+    menuService.query().then(data => {
+      this.menus = data.body
+    })
+    menuComandaService.query().then(data => {
       this.items = data.body
-      console.log('"this.items"')
-      console.log(this.items)
-    })
-    empleadoService.query().then(data => {
-      this.empleados = data.body
-    })
-    mesaService.query().then(data => {
-      this.mesas = data.body
     })
   },
   methods: {
     crearComanda (model) {
-      comandaService.save(this.model).then(data => {
-        this.comandas.push(model)
+      menuComandaService.save(this.model).then(data => {
+        this.menuComandas.push(model)
       }, err => {
         console.log(err)
         if (err.status) {

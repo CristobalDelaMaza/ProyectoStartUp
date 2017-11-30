@@ -31,7 +31,7 @@
                   </v-flex>
                   </div>
                   <v-flex xs12 sm4 offset-sm4>
-                  <v-btn color="" type="submit">Large Button</v-btn>
+                  <v-btn color="" type="submit">Acceder</v-btn>
                 </v-flex>
               </v-flex>
             </div>

@@ -53,14 +53,14 @@
         <v-card-text>
           <v-form action="crearComanda(model)">
             <v-layout wrap>
-                Mesa
+                Mesa:
               <v-flex xs12>
                 <select v-model="model.id_mesa" label="Mesa" item-value="id">
                   <option v-for="mesa in mesas" v-bind:value="mesa.id"> {{ mesa.nro_mesa }}
                   </option>
                 </select>
               </v-flex>
-                Empleado
+                Empleado:
               <v-flex xs12>
                 <select v-model="model.id_empleado" label="Empleado" item-value="id">
                   <option v-for="empleado in empleados" v-bind:value="empleado.id"> {{ empleado.nombre }}

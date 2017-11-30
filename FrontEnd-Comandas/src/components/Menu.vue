@@ -63,7 +63,7 @@
               <v-flex xs12>
                 <v-text-field label="Precio" v-model="model.precio" required numeric></v-text-field>
               </v-flex>
-              	Acompañamiento
+              	Acompañamiento:
               <v-flex xs12>
               	<select v-model="model.id_acompannamiento" label="Acompañamiento" item-value="id">
                   <option v-for="item in items" v-bind:value="item.id"> {{ item.nombre }}

@@ -59,6 +59,7 @@
               <v-flex xs12>
                 <v-text-field label="Rut" v-model="model.rut" required></v-text-field>
               </v-flex>
+              Cargo:
               <v-flex xs12>
               <!--<v-select v-bind:items="cargos" v-model="model.id_cargo" label="Cargo" item-value="value"></v-select>-->
               <select v-model="model.id_cargo" label="Cargo" item-value="id">
